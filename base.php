@@ -23,19 +23,19 @@ catch (Exception $e)
 
 // On récupère tout le contenu de la table recipes
 	$sqlQuery = 'SELECT * FROM recipe';
-	$recipeStatement = $mysqlClient->prepare($sqlQuery); 	//Prendre tout ce qu'il y a dans la table recipes
+	$recipesStatement = $mysqlClient->prepare($sqlQuery); 	//Prendre tout ce qu'il y a dans la table recipes
 
 	// Pour récupérer les données, on demande à cet objet d'exécuter la requête SQL et de récupérer toutes les données dans un format "exploitable"
 	// pour nous sous la forme d'un tableau PHP.
-	$recipeStatement->execute();
-	$recipe = $recipeStatement->fetchAll();
+	$recipesStatement->execute();
+	$recipes = $recipesStatement->fetchAll();
 
 
 
 // On affiche chaque recette une à une
-foreach ($recipe as $solo_recipe) {
+foreach ($recipes as $recipe) {
 ?>
-    <p><?php echo $solo_recipe['recipe_name']; ?></p> 	<!-- affiche le nom de la recette -->
+    <p><?php echo $recipe['recipe_name']; ?></p> 	<!-- affiche le nom de la recette -->
 <?php
 }
 

@@ -14,53 +14,47 @@ catch (Exception $e)
 }
 		
 
+/*
+Requêtes SQL avec PDO
+PDO supporte deux méthodes principales pour exécuter des requêtes :
 
-// On récupère tout le contenu de la table recipes
-	$sqlQuery = 'SELECT * FROM recipe';
-	$recipeStatement = $mysqlClient->prepare($sqlQuery); 	//Prendre tout ce qu'il y a dans la table recipes
-
-	// Pour récupérer les données, on demande à cet objet d'exécuter la requête SQL et de récupérer toutes les données dans un format "exploitable"
-	// pour nous sous la forme d'un tableau PHP.
-	$recipeStatement->execute();
-	$recipe = $recipeStatement->fetchAll();
+- query : pour exécuter des requêtes simples (lecture uniquement).
+- prepare et execute : pour des requêtes sécurisées avec des paramètres.
+*/
 
 
-// On récupère tout le contenu de la table category
-$sqlQuery = 'SELECT * FROM category';
-$categoryStatement = $mysqlClient->prepare($sqlQuery); 	
+// On récupère tout le contenu nécessaire dans les tables pour la page
 
-$categoryStatement->execute();
-$category = $categoryStatement->fetchAll();
+$sqlQuery = "
+SELECT                                                       
+    category.category_name AS Catégorie,                     
+    recipe.recipe_name AS Recette,                           
+    recipe.preparation_time AS Temps_De_Préparation          
+
+FROM                                                         
+    category                                                
+
+INNER JOIN                                                  
+    recipe                                                  
+
+ON                                                          
+    recipe.id_category = category.id_category               
+
+ORDER BY preparation_time  
+"; 
+
+$recipesStatement = $mysqlClient->prepare($sqlQuery); 	// prend le contenu nécessaire dans les tables
+
+
+// Pour récupérer les données, on demande à cet objet d'exécuter la requête SQL et de récupérer toutes les données dans un format "exploitable"
+// pour nous sous la forme d'un tableau PHP.
+
+// récupération des résultats
+$recipesStatement->execute();
+$recipes = $recipesStatement->fetchAll();
 	
-
-
-
-// On affiche chaque recette une à une
-foreach ($recipe as $solo_recipe) {
 ?>
-    <p><?php echo $solo_recipe['recipe_name']; ?></p> 	<!-- affiche le nom de la recette -->
 
-
-
-	<p><?php echo $solo_recipe['id_category'[$solo_category['category_name']]]; ?></p> 	<!-- affiche  -->
-
-	<?php
-		foreach ($category as $solo_category) {
-		?>
-		<p><?php echo $solo_category['category_name']; ?></p> 	<!-- affiche  -->
-		<?php
-		}
-	?>
-	<!-- chercher comment afficher le nom de la catégorie pour chaque recette -->
-
-
-	
-
-	<p><?php echo $solo_recipe['preparation_time']; ?></p> 	<!-- affiche le temps de préparation -->
-<?php
-}
-
-?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -83,14 +77,22 @@ foreach ($recipe as $solo_recipe) {
 	</tr>
 	</thead>
 	<tbody>
-	<tr>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr>
+		<?php
+			// affichage des données : chaque recette avec ses infos
+
+			foreach ($recipes as $recipe) {
+
+				echo "<tr><td>".$recipe['Recette']."</td>"; 				// affiche le nom de la recette 
+
+				echo "<td>".$recipe['Catégorie']."</td>"; 					// afficher le nom de la catégorie  
+
+				echo "<td>".$recipe['Temps_De_Préparation']."</td></tr>";	// affiche le temps de préparation 
+
+			}
+
+		?>
 	</tbody>
 </table>
-
 
 
 </body>
@@ -99,8 +101,14 @@ foreach ($recipe as $solo_recipe) {
 
 <!--
 
-Une première page recettes.php : elle listera tous les recettes de la BDD dans un tableau HTML 
-(avec 3 colonnes : nom de la recette, nom de la catégorie, temps de préparation). 
-On aura un lien < a > sur le nom de la recette qui mènera vers la 2e page.
+Une première page recettes.php : 
+
+- elle listera tous les recettes de la BDD dans un tableau HTML avec 3 colonnes : nom de la recette,
+																			      nom de la catégorie,
+																				  temps de préparation.    	FAIT
+
+- On aura un lien < a > sur le nom de la recette qui mènera vers la 2e page.							   	EN COURS (page 2 d'abord)
+
+- Stylisation.																								NON COMMENCÉE
 
 -->
