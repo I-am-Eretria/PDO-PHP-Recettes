@@ -26,7 +26,8 @@ PDO supporte deux méthodes principales pour exécuter des requêtes :
 // On récupère tout le contenu nécessaire dans les tables pour la page
 
 $sqlQuery = "
-SELECT                                                       
+SELECT                    
+	*,
     category.category_name AS Catégorie,                     
     recipe.recipe_name AS Recette,                           
     recipe.preparation_time AS Temps_De_Préparation          
@@ -53,6 +54,7 @@ $recipesStatement = $mysqlClient->prepare($sqlQuery); 	// prend le contenu néce
 $recipesStatement->execute();
 $recipes = $recipesStatement->fetchAll();
 	
+
 ?>
 
 
@@ -82,11 +84,14 @@ $recipes = $recipesStatement->fetchAll();
 
 			foreach ($recipes as $recipe) {
 
-				echo "<tr><td>".$recipe['Recette']."</td>"; 				// affiche le nom de la recette 
+				
+				$id_link_recipe = $recipe['id_recipe'];
+				
+				echo "<tr><td><a href='detailRecette.php?id=$id_link_recipe'>".$recipe['Recette']."</a></td>"; 			// affiche le nom de la recette 
 
-				echo "<td>".$recipe['Catégorie']."</td>"; 					// afficher le nom de la catégorie  
+				echo "<td>".$recipe['Catégorie']."</td>"; 														// affiche le nom de la catégorie  
 
-				echo "<td>".$recipe['Temps_De_Préparation']."</td></tr>";	// affiche le temps de préparation 
+				echo "<td>".$recipe['Temps_De_Préparation']." minutes </td></tr>";										// affiche le temps de préparation 
 
 			}
 
@@ -107,7 +112,7 @@ Une première page recettes.php :
 																			      nom de la catégorie,
 																				  temps de préparation.    	FAIT
 
-- On aura un lien < a > sur le nom de la recette qui mènera vers la 2e page.							   	EN COURS (page 2 d'abord)
+- On aura un lien < a > sur le nom de la recette qui mènera vers la 2e page.							   	FAIT
 
 - Stylisation.																								NON COMMENCÉE
 

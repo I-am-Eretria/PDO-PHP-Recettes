@@ -1,0 +1,13 @@
+.demo {
+    border:1px solide #C0C0C0;
+    padding:5px;
+}
+.demo th {
+    border:1px solide #C0C0C0;
+    padding:5px;
+    background:#F0F0F0;
+}
+.demo td {
+    border:1px solide #C0C0C0;
+    padding:5px;
+}
