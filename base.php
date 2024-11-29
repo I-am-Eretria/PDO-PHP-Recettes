@@ -3,7 +3,7 @@
 try		// PHP essaie d'exécuter les instructions à l'intérieur du bloc try
 {
 		// On se connecte à MySQL
-	$mysqlClient = new PDO('mysql:host=localhost;dbname=recettes;charset=utf8', 'root', ''
+	$mysqlClient = new PDO('mysql:host=localhost;dbname=recettes;charset=utf8', 'root', '',
 	[PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION],	// Si requête SQL « plante », bien souvent PHP vous dira qu'il y a eu une erreur à la ligne du fetchAll
 	);												// Pour afficher les détails sur l'erreur -> on activer la gestion des erreurs
 													// toutes les requêtes SQL qui comportent des erreurs s'afficheront avec un message beaucoup plus clair

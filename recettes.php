@@ -2,7 +2,7 @@
 
 try
 {
-	$mysqlClient = new PDO('mysql:host=localhost;dbname=recettes;charset=utf8', 'root', ''
+	$mysqlClient = new PDO('mysql:host=localhost;dbname=recettes;charset=utf8', 'root', '',
 	[PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION],	
 	);												
 												
@@ -25,16 +25,76 @@ catch (Exception $e)
 	$recipe = $recipeStatement->fetchAll();
 
 
+// On récupère tout le contenu de la table category
+$sqlQuery = 'SELECT * FROM category';
+$categoryStatement = $mysqlClient->prepare($sqlQuery); 	
+
+$categoryStatement->execute();
+$category = $categoryStatement->fetchAll();
+	
+
+
 
 // On affiche chaque recette une à une
 foreach ($recipe as $solo_recipe) {
 ?>
     <p><?php echo $solo_recipe['recipe_name']; ?></p> 	<!-- affiche le nom de la recette -->
+
+
+
+	<p><?php echo $solo_recipe['id_category'[$solo_category['category_name']]]; ?></p> 	<!-- affiche  -->
+
+	<?php
+		foreach ($category as $solo_category) {
+		?>
+		<p><?php echo $solo_category['category_name']; ?></p> 	<!-- affiche  -->
+		<?php
+		}
+	?>
+	<!-- chercher comment afficher le nom de la catégorie pour chaque recette -->
+
+
+	
+
+	<p><?php echo $solo_recipe['preparation_time']; ?></p> 	<!-- affiche le temps de préparation -->
 <?php
 }
 
 ?>
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="assets/css/recettes.css">
+	<title>Recettes</title>
+</head>
+<body>
+	
+
+
+<table class="demo">
+	<thead>
+	<tr>
+		<th>Recette</th>
+		<th>Catégorie</th>
+		<th>Temps de Préparation</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	</tbody>
+</table>
+
+
+
+</body>
+</html>
 
 
 <!--
